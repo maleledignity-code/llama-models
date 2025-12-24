@@ -1,180 +1,396 @@
-<p align="center">
-  <img src="/Llama_Repo.jpeg" width="400"/>
-</p>
+# Hh Python API library
 
-<p align="center">
-        🤗 <a href="https://huggingface.co/meta-Llama"> Models on Hugging Face</a>&nbsp | <a href="https://ai.meta.com/blog/"> Blog</a>&nbsp |  <a href="https://llama.meta.com/">Website</a>&nbsp | <a href="https://llama.meta.com/get-started/">Get Started</a>&nbsp | <a href="https://github.com/meta-llama/llama-cookbook">Llama Cookbook</a>&nbsp
-<br>
+<!-- prettier-ignore -->
+[![PyPI version](https://img.shields.io/pypi/v/hh.svg?label=pypi%20(stable))](https://pypi.org/project/hh/)
 
----
+The Hh Python library provides convenient access to the Hh REST API from any Python 3.9+
+application. The library includes type definitions for all request params and response fields,
+and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
-# Llama Models
+It is generated with [Stainless](https://www.stainless.com/).
 
-Llama is an accessible, open large language model (LLM) designed for developers, researchers, and businesses to build, experiment, and responsibly scale their generative AI ideas. Part of a foundational system, it serves as a bedrock for innovation in the global community. A few key aspects:
-1. **Open access**: Easy accessibility to cutting-edge large language models, fostering collaboration and advancements among developers, researchers, and organizations
-2. **Broad ecosystem**: Llama models have been downloaded hundreds of millions of times, there are thousands of community projects built on Llama and platform support is broad from cloud providers to startups - the world is building with Llama!
-3. **Trust & safety**: Llama models are part of a comprehensive approach to trust and safety, releasing models and tools that are designed to enable community collaboration and encourage the standardization of the development and usage of trust and safety tools for generative AI
+## Documentation
 
-Our mission is to empower individuals and industry through this opportunity while fostering an environment of discovery and ethical AI advancements. The model weights are licensed for researchers and commercial entities, upholding the principles of openness.
+The full API of this library can be found in [api.md](api.md).
 
-## Llama Models
+## Installation
 
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/llama-models)](https://pypi.org/project/llama-models/)
-[![Discord](https://img.shields.io/discord/1257833999603335178)](https://discord.gg/TZAAYNVtrU)
-
-|  **Model** | **Launch date** | **Model sizes** | **Context Length** | **Tokenizer** | **Acceptable use policy**  |  **License** | **Model Card** |
-| :----: | :----: | :----: | :----:|:----:|:----:|:----:|:----:|
-| Llama 2 | 7/18/2023 | 7B, 13B, 70B | 4K | Sentencepiece | [Use Policy](models/llama2/USE_POLICY.md) | [License](models/llama2/LICENSE) | [Model Card](models/llama2/MODEL_CARD.md) |
-| Llama 3 | 4/18/2024 | 8B, 70B | 8K | TikToken-based | [Use Policy](models/llama3/USE_POLICY.md) | [License](models/llama3/LICENSE) | [Model Card](models/llama3/MODEL_CARD.md) |
-| Llama 3.1 | 7/23/2024 | 8B, 70B, 405B | 128K | TikToken-based | [Use Policy](models/llama3_1/USE_POLICY.md) | [License](models/llama3_1/LICENSE) | [Model Card](models/llama3_1/MODEL_CARD.md) |
-| Llama 3.2 | 9/25/2024 | 1B, 3B | 128K | TikToken-based | [Use Policy](models/llama3_2/USE_POLICY.md) | [License](models/llama3_2/LICENSE) | [Model Card](models/llama3_2/MODEL_CARD.md) |
-| Llama 3.2-Vision | 9/25/2024 | 11B, 90B | 128K | TikToken-based | [Use Policy](models/llama3_2/USE_POLICY.md) | [License](models/llama3_2/LICENSE) | [Model Card](models/llama3_2/MODEL_CARD_VISION.md) |
-| Llama 3.3 | 12/04/2024 | 70B | 128K | TikToken-based | [Use Policy](models/llama3_3/USE_POLICY.md) | [License](models/llama3_3/LICENSE) | [Model Card](models/llama3_3/MODEL_CARD.md) |
-| Llama 4 | 4/5/2025 | Scout-17B-16E, Maverick-17B-128E | 10M, 1M | TikToken-based | [Use Policy](models/llama4/USE_POLICY.md) | [License](models/llama4/LICENSE) | [Model Card](models/llama4/MODEL_CARD.md) |
-
-## Download
-
-To download the model weights and tokenizer:
-
-1. Visit the [Meta Llama website](https://llama.meta.com/llama-downloads/).
-2. Read and accept the license.
-3. Once your request is approved you will receive a signed URL via email.
-4. Install the Llama Models CLI: `pip install llama-models`. (**<-- Start Here if you have received an email already.**)
-5. Run `llama-model list` to show the latest available models and determine the model ID you wish to download. **NOTE**:
-If you want older versions of models, run `llama-model list --show-all` to show all the available Llama models.
-
-6. Run: `llama-model download --source meta --model-id CHOSEN_MODEL_ID`
-7. Pass the URL provided when prompted to start the download.
-
-Remember that the links expire after 24 hours and a certain amount of downloads. You can always re-request a link if you start seeing errors such as `403: Forbidden`.
-
-### CLI Commands Reference
-
-Once installed, the `llama-model` CLI provides the following commands:
-
-```bash
-llama-model list              # List available models
-llama-model list --show-all   # List all models (including older versions)
-llama-model describe -m MODEL_ID     # Show detailed information about a model
-llama-model download          # Download models from Meta or Hugging Face
-llama-model verify-download   # Verify integrity of downloaded models
-llama-model remove -m MODEL_ID       # Remove a downloaded model
-llama-model prompt-format -m MODEL_ID  # Show the prompt format for a model
+```sh
+# install from this staging repo
+pip install git+ssh://git@github.com/stainless-sdks/hh-python.git
 ```
 
-For detailed help on any command, run `llama-model COMMAND --help`.
+> [!NOTE]
+> Once this package is [published to PyPI](https://www.stainless.com/docs/guides/publish), this will become: `pip install hh`
 
-## Running the models
+## Usage
 
-In order to run the models, you will need to install dependencies after checking out the repository.
+The full API of this library can be found in [api.md](api.md).
 
-```bash
-# Run this within a suitable Python environment (uv, conda, or virtualenv)
-pip install .[torch]
+```python
+import os
+from hh import Hh
+
+client = Hh(
+    api_key=os.environ.get("PETSTORE_API_KEY"),  # This is the default and can be omitted
+)
+
+order = client.store.orders.create(
+    pet_id=1,
+    quantity=1,
+    status="placed",
+)
+print(order.id)
 ```
 
-Example scripts are available in `models/{ llama3, llama4 }/scripts/` sub-directory. Note that the Llama4 series of models require at least 4 GPUs to run inference at full (bf16) precision.
+While you can provide an `api_key` keyword argument,
+we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
+to add `PETSTORE_API_KEY="My API Key"` to your `.env` file
+so that your API Key is not stored in source control.
 
-```bash
-#!/bin/bash
+## Async usage
 
-NGPUS=4
-CHECKPOINT_DIR=~/.llama/checkpoints/Llama-4-Scout-17B-16E-Instruct
-PYTHONPATH=$(git rev-parse --show-toplevel) \
-  torchrun --nproc_per_node=$NGPUS \
-  -m models.llama4.scripts.chat_completion $CHECKPOINT_DIR \
-  --world_size $NGPUS
+Simply import `AsyncHh` instead of `Hh` and use `await` with each API call:
+
+```python
+import os
+import asyncio
+from hh import AsyncHh
+
+client = AsyncHh(
+    api_key=os.environ.get("PETSTORE_API_KEY"),  # This is the default and can be omitted
+)
+
+
+async def main() -> None:
+    order = await client.store.orders.create(
+        pet_id=1,
+        quantity=1,
+        status="placed",
+    )
+    print(order.id)
+
+
+asyncio.run(main())
 ```
 
-The above script should be used with an Instruct (Chat) model. For a Base model, update the `CHECKPOINT_DIR` path and use the script `models.llama4.scripts.completion`.
+Functionality between the synchronous and asynchronous clients is otherwise identical.
 
+### With aiohttp
 
-## Running inference with FP8 and Int4 Quantization
+By default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.
 
-You can reduce the memory footprint of the models at the cost of minimal loss in accuracy by running inference with FP8 or Int4 quantization. Use the `--quantization-mode` flag to specify the quantization mode. There are two modes:
-- `fp8_mixed`: Mixed precision inference with FP8 for some weights and bfloat16 for activations.
-- `int4_mixed`: Mixed precision inference with Int4 for some weights and bfloat16 for activations.
+You can enable this by installing `aiohttp`:
 
-Using FP8, running Llama-4-Scout-17B-16E-Instruct requires 2 GPUs with 80GB of memory. Using Int4, you need a single GPU with 80GB of memory.
-
-```bash
-MODE=fp8_mixed  # or int4_mixed
-if [ $MODE == "fp8_mixed" ]; then
-  NGPUS=2
-else
-  NGPUS=1
-fi
-CHECKPOINT_DIR=~/.llama/checkpoints/Llama-4-Scout-17B-16E-Instruct
-PYTHONPATH=$(git rev-parse --show-toplevel) \
-  torchrun --nproc_per_node=$NGPUS \
-  -m models.llama4.scripts.chat_completion $CHECKPOINT_DIR \
-  --world_size $NGPUS \
-  --quantization-mode $MODE
+```sh
+# install from this staging repo
+pip install 'hh[aiohttp] @ git+ssh://git@github.com/stainless-sdks/hh-python.git'
 ```
 
+Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
-For more flexibility in running inference (including using other providers), please see the [`Llama Stack`](https://github.com/meta-llama/llama-stack) toolset.
+```python
+import os
+import asyncio
+from hh import DefaultAioHttpClient
+from hh import AsyncHh
 
 
-## Access to Hugging Face
+async def main() -> None:
+    async with AsyncHh(
+        api_key=os.environ.get("PETSTORE_API_KEY"),  # This is the default and can be omitted
+        http_client=DefaultAioHttpClient(),
+    ) as client:
+        order = await client.store.orders.create(
+            pet_id=1,
+            quantity=1,
+            status="placed",
+        )
+        print(order.id)
 
-We also provide downloads on [Hugging Face](https://huggingface.co/meta-llama), in both transformers and native `llama4` formats. To download the weights from Hugging Face, please follow these steps:
 
-- Visit one of the repos, for example [meta-llama/Llama-4-Scout-17B-16E](https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E).
-- Read and accept the license. Once your request is approved, you'll be granted access to all Llama 3.1 models as well as previous versions. Note that requests used to take up to one hour to get processed.
-- To download the original native weights to use with this repo, click on the "Files and versions" tab and download the contents of the `original` folder. You can also download them from the command line if you `pip install huggingface-hub`:
-
-```bash
-huggingface-cli download meta-llama/Llama-4-Scout-17B-16E-Instruct-Original --local-dir meta-llama/Llama-4-Scout-17B-16E-Instruct-Original
+asyncio.run(main())
 ```
 
-- To use with transformers, the following snippet will download and cache the weights:
+## Using types
 
-  ```python
-  # inference.py
-  from transformers import AutoTokenizer, Llama4ForConditionalGeneration
-  import torch
+Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:
 
-  model_id = "meta-llama/Llama-4-Scout-17B-16E-Instruct"
+- Serializing back into JSON, `model.to_json()`
+- Converting to a dictionary, `model.to_dict()`
 
-  tokenizer = AutoTokenizer.from_pretrained(model_id)
+Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
 
-  messages = [
-      {"role": "user", "content": "Who are you?"},
-  ]
-  inputs = tokenizer.apply_chat_template(
-      messages, add_generation_prompt=True, return_tensors="pt", return_dict=True
-  )
+## Nested params
 
-  model = Llama4ForConditionalGeneration.from_pretrained(
-      model_id, device_map="auto", torch_dtype=torch.bfloat16
-  )
+Nested parameters are dictionaries, typed using `TypedDict`, for example:
 
-  outputs = model.generate(**inputs.to(model.device), max_new_tokens=100)
-  outputs = tokenizer.batch_decode(outputs[:, inputs["input_ids"].shape[-1] :])
-  print(outputs[0])
-  ```
-  ```bash
-   torchrun --nnodes=1 --nproc_per_node=8 inference.py
-   ```
+```python
+from hh import Hh
 
-## Installations
+client = Hh()
 
-You can install this repository as a [package](https://pypi.org/project/llama-models/) by just doing `pip install llama-models`
+pet = client.pets.create(
+    name="doggie",
+    photo_urls=["string"],
+    category={},
+)
+print(pet.category)
+```
 
-## Responsible Use
+## Handling errors
 
-Llama models are a new technology that carries potential risks with use. Testing conducted to date has not — and could not — cover all scenarios.
-To help developers address these risks, we have created the [Responsible Use Guide](https://ai.meta.com/static-resource/responsible-use-guide/).
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `hh.APIConnectionError` is raised.
 
-## Issues
+When the API returns a non-success status code (that is, 4xx or 5xx
+response), a subclass of `hh.APIStatusError` is raised, containing `status_code` and `response` properties.
 
-Please report any software “bug” or other problems with the models through one of the following means:
-- Reporting issues with the model: [https://github.com/meta-llama/llama-models/issues](https://github.com/meta-llama/llama-models/issues)
-- Reporting risky content generated by the model: [developers.facebook.com/llama_output_feedback](http://developers.facebook.com/llama_output_feedback)
-- Reporting bugs and security concerns: [facebook.com/whitehat/info](http://facebook.com/whitehat/info)
+All errors inherit from `hh.APIError`.
 
+```python
+import hh
+from hh import Hh
 
-## Questions
+client = Hh()
 
-For common questions, the FAQ can be found [here](https://llama.meta.com/faq), which will be updated over time as new questions arise.
+try:
+    client.store.list_inventory()
+except hh.APIConnectionError as e:
+    print("The server could not be reached")
+    print(e.__cause__)  # an underlying Exception, likely raised within httpx.
+except hh.RateLimitError as e:
+    print("A 429 status code was received; we should back off a bit.")
+except hh.APIStatusError as e:
+    print("Another non-200-range status code was received")
+    print(e.status_code)
+    print(e.response)
+```
+
+Error codes are as follows:
+
+| Status Code | Error Type                 |
+| ----------- | -------------------------- |
+| 400         | `BadRequestError`          |
+| 401         | `AuthenticationError`      |
+| 403         | `PermissionDeniedError`    |
+| 404         | `NotFoundError`            |
+| 422         | `UnprocessableEntityError` |
+| 429         | `RateLimitError`           |
+| >=500       | `InternalServerError`      |
+| N/A         | `APIConnectionError`       |
+
+### Retries
+
+Certain errors are automatically retried 2 times by default, with a short exponential backoff.
+Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict,
+429 Rate Limit, and >=500 Internal errors are all retried by default.
+
+You can use the `max_retries` option to configure or disable retry settings:
+
+```python
+from hh import Hh
+
+# Configure the default for all requests:
+client = Hh(
+    # default is 2
+    max_retries=0,
+)
+
+# Or, configure per-request:
+client.with_options(max_retries=5).store.list_inventory()
+```
+
+### Timeouts
+
+By default requests time out after 1 minute. You can configure this with a `timeout` option,
+which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
+
+```python
+from hh import Hh
+
+# Configure the default for all requests:
+client = Hh(
+    # 20 seconds (default is 1 minute)
+    timeout=20.0,
+)
+
+# More granular control:
+client = Hh(
+    timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
+)
+
+# Override per-request:
+client.with_options(timeout=5.0).store.list_inventory()
+```
+
+On timeout, an `APITimeoutError` is thrown.
+
+Note that requests that time out are [retried twice by default](#retries).
+
+## Advanced
+
+### Logging
+
+We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
+
+You can enable logging by setting the environment variable `HH_LOG` to `info`.
+
+```shell
+$ export HH_LOG=info
+```
+
+Or to `debug` for more verbose logging.
+
+### How to tell whether `None` means `null` or missing
+
+In an API response, a field may be explicitly `null`, or missing entirely; in either case, its value is `None` in this library. You can differentiate the two cases with `.model_fields_set`:
+
+```py
+if response.my_field is None:
+  if 'my_field' not in response.model_fields_set:
+    print('Got json like {}, without a "my_field" key present at all.')
+  else:
+    print('Got json like {"my_field": null}.')
+```
+
+### Accessing raw response data (e.g. headers)
+
+The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
+
+```py
+from hh import Hh
+
+client = Hh()
+response = client.store.with_raw_response.list_inventory()
+print(response.headers.get('X-My-Header'))
+
+store = response.parse()  # get the object that `store.list_inventory()` would have returned
+print(store)
+```
+
+These methods return an [`APIResponse`](https://github.com/stainless-sdks/hh-python/tree/main/src/hh/_response.py) object.
+
+The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/hh-python/tree/main/src/hh/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+
+#### `.with_streaming_response`
+
+The above interface eagerly reads the full response body when you make the request, which may not always be what you want.
+
+To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
+
+```python
+with client.store.with_streaming_response.list_inventory() as response:
+    print(response.headers.get("X-My-Header"))
+
+    for line in response.iter_lines():
+        print(line)
+```
+
+The context manager is required so that the response will reliably be closed.
+
+### Making custom/undocumented requests
+
+This library is typed for convenient access to the documented API.
+
+If you need to access undocumented endpoints, params, or response properties, the library can still be used.
+
+#### Undocumented endpoints
+
+To make requests to undocumented endpoints, you can make requests using `client.get`, `client.post`, and other
+http verbs. Options on the client will be respected (such as retries) when making this request.
+
+```py
+import httpx
+
+response = client.post(
+    "/foo",
+    cast_to=httpx.Response,
+    body={"my_param": True},
+)
+
+print(response.headers.get("x-foo"))
+```
+
+#### Undocumented request params
+
+If you want to explicitly send an extra param, you can do so with the `extra_query`, `extra_body`, and `extra_headers` request
+options.
+
+#### Undocumented response properties
+
+To access undocumented response properties, you can access the extra fields like `response.unknown_prop`. You
+can also get all the extra fields on the Pydantic model as a dict with
+[`response.model_extra`](https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel.model_extra).
+
+### Configuring the HTTP client
+
+You can directly override the [httpx client](https://www.python-httpx.org/api/#client) to customize it for your use case, including:
+
+- Support for [proxies](https://www.python-httpx.org/advanced/proxies/)
+- Custom [transports](https://www.python-httpx.org/advanced/transports/)
+- Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
+
+```python
+import httpx
+from hh import Hh, DefaultHttpxClient
+
+client = Hh(
+    # Or use the `HH_BASE_URL` env var
+    base_url="http://my.test.server.example.com:8083",
+    http_client=DefaultHttpxClient(
+        proxy="http://my.test.proxy.example.com",
+        transport=httpx.HTTPTransport(local_address="0.0.0.0"),
+    ),
+)
+```
+
+You can also customize the client on a per-request basis by using `with_options()`:
+
+```python
+client.with_options(http_client=DefaultHttpxClient(...))
+```
+
+### Managing HTTP resources
+
+By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
+
+```py
+from hh import Hh
+
+with Hh() as client:
+  # make requests here
+  ...
+
+# HTTP client is now closed
+```
+
+## Versioning
+
+This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
+
+1. Changes that only affect static types, without breaking runtime behavior.
+2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_
+3. Changes that we do not expect to impact the vast majority of users in practice.
+
+We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
+
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/hh-python/issues) with questions, bugs, or suggestions.
+
+### Determining the installed version
+
+If you've upgraded to the latest version but aren't seeing any new features you were expecting then your python environment is likely still using an older version.
+
+You can determine the version that is being used at runtime with:
+
+```py
+import hh
+print(hh.__version__)
+```
+
+## Requirements
+
+Python 3.9 or higher.
+
+## Contributing
+
+See [the contributing documentation](./CONTRIBUTING.md).
